@@ -1,0 +1,11 @@
+C:\Users\admin\source\repos\myproject\myproject\bin\Release\myproject.exe.config
+C:\Users\admin\source\repos\myproject\myproject\bin\Release\myproject.exe
+C:\Users\admin\source\repos\myproject\myproject\bin\Release\myproject.pdb
+C:\Users\admin\source\repos\myproject\myproject\obj\Release\myproject.csproj.AssemblyReference.cache
+C:\Users\admin\source\repos\myproject\myproject\obj\Release\myproject.csproj.SuggestedBindingRedirects.cache
+C:\Users\admin\source\repos\myproject\myproject\obj\Release\myproject.Form1.resources
+C:\Users\admin\source\repos\myproject\myproject\obj\Release\myproject.Properties.Resources.resources
+C:\Users\admin\source\repos\myproject\myproject\obj\Release\myproject.csproj.GenerateResource.cache
+C:\Users\admin\source\repos\myproject\myproject\obj\Release\myproject.csproj.CoreCompileInputs.cache
+C:\Users\admin\source\repos\myproject\myproject\obj\Release\myproject.exe
+C:\Users\admin\source\repos\myproject\myproject\obj\Release\myproject.pdb
