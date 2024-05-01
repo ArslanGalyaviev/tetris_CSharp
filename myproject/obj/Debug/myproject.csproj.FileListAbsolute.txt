@@ -9,3 +9,14 @@ C:\Users\admin\source\repos\myproject\myproject\obj\Debug\myproject.csproj.CoreC
 C:\Users\admin\source\repos\myproject\myproject\obj\Debug\myproject.exe
 C:\Users\admin\source\repos\myproject\myproject\obj\Debug\myproject.pdb
 C:\Users\admin\source\repos\myproject\myproject\obj\Debug\myproject.Form1.resources
+C:\Users\admin\Documents\GitHub\tetris_CSharp\myproject\obj\Debug\myproject.csproj.AssemblyReference.cache
+C:\Users\admin\Documents\GitHub\tetris_CSharp\myproject\obj\Debug\myproject.csproj.SuggestedBindingRedirects.cache
+C:\Users\admin\Documents\GitHub\tetris_CSharp\myproject\obj\Debug\myproject.Form1.resources
+C:\Users\admin\Documents\GitHub\tetris_CSharp\myproject\obj\Debug\myproject.Properties.Resources.resources
+C:\Users\admin\Documents\GitHub\tetris_CSharp\myproject\obj\Debug\myproject.csproj.GenerateResource.cache
+C:\Users\admin\Documents\GitHub\tetris_CSharp\myproject\obj\Debug\myproject.csproj.CoreCompileInputs.cache
+C:\Users\admin\Documents\GitHub\tetris_CSharp\myproject\obj\Debug\myproject.exe
+C:\Users\admin\Documents\GitHub\tetris_CSharp\myproject\obj\Debug\myproject.pdb
+C:\Users\admin\Documents\GitHub\tetris_CSharp\myproject\bin\Debug\myproject.exe.config
+C:\Users\admin\Documents\GitHub\tetris_CSharp\myproject\bin\Debug\myproject.exe
+C:\Users\admin\Documents\GitHub\tetris_CSharp\myproject\bin\Debug\myproject.pdb

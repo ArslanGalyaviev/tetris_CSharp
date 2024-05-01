@@ -26,7 +26,10 @@ namespace myproject
             {
                 timer.Stop();
                 currentTick = 800;
-            } else
+                Bitmap resizedImg = new Bitmap(Properties.Resources.tyan, pictureBox1.Width, pictureBox1.Height);
+                pictureBox1.Image = resizedImg;
+            } 
+            else
             {
                 if (game.Tick(formGraphics, formGraphics2))
                 {
@@ -59,6 +62,7 @@ namespace myproject
         public Form1()
         {
             InitializeComponent();
+            timer.Stop();
             formGraphics = pictureBox1.CreateGraphics();
             formGraphics2 = pictureBox2.CreateGraphics();
             game = new Game(formGraphics2);
@@ -69,14 +73,7 @@ namespace myproject
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
         {
-            for (int i = 0; i < game.field.sizeX; ++i)
-            {
-                for (int j = 0; j < game.field.sizeY; ++j)
-                {
-                    e.Graphics.FillRectangle(game.myBrush, i * game.sizeCellX, j * game.sizeCellY, game.sizeCellX, game.sizeCellY);
-                    e.Graphics.DrawRectangle(game.myPen, i * game.sizeCellX, j * game.sizeCellY, game.sizeCellX, game.sizeCellY);
-                }
-            }
+            
         }
 
         private void pictureBox2_Paint(object sender, PaintEventArgs e)
@@ -86,6 +83,7 @@ namespace myproject
 
         private void button1_Click(object sender, EventArgs e)
         {
+            formGraphics.Clear(Color.White);
             game = new Game(formGraphics2);
             game.sizeCellX = Math.Min((int)(tableLayoutPanel1.Width * 0.7) / game.field.sizeX,
                     (int)(tableLayoutPanel1.Height * 0.8) / game.field.sizeY);
