@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.IO.Ports;
+using System.Runtime.InteropServices;
 
 namespace myproject
 {
@@ -129,8 +130,9 @@ namespace myproject
                 }
                 formGraphics2.Clear(Color.White);
                 int currentY = 1;
-                foreach (Figure figureInQueue in game.queueOfFigure)
+                for (int i = game.queueOfFigure.Count - 1; i > -1; --i) 
                 {
+                    Figure figureInQueue = game.queueOfFigure[i];
                     foreach (Point p in figureInQueue.cells)
                     {
                         formGraphics2.FillRectangle(figureInQueue.color, (p.X - game.field.sizeX / 2 + 3) * game.sizeCellX, (currentY + p.Y) * game.sizeCellY, game.sizeCellX, game.sizeCellY);

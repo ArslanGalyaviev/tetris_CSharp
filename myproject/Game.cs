@@ -86,7 +86,7 @@ namespace myproject
         }
         public void moveLeft(Graphics formGraphics) 
         {
-            if (!haveFigurenow)
+            if (!haveFigurenow || !gameOn)
             {
                 return;
             }
@@ -107,20 +107,22 @@ namespace myproject
             {
                 eraseFigure(formGraphics, figureNow);
                 eraseFigure(formGraphics, projectionFigureNow);
+
                 figureNow.moveLeft();
+
+                drawFigure(formGraphics, figureNow);
+                projectionFigureNow = getProjection();
+                drawFigure(formGraphics, projectionFigureNow);
             }
             foreach (Point p in figureNow.cells)
             {
                 field.cells[p.Y][p.X].blocked = true;
                 field.cells[p.Y][p.X].figure = figureNow;
             }
-            drawFigure(formGraphics, figureNow);
-            projectionFigureNow = getProjection();
-            drawFigure(formGraphics, projectionFigureNow);
         }
         public void moveRight(Graphics formGraphics)
         {
-            if (!haveFigurenow)
+            if (!haveFigurenow || !gameOn)
             {
                 return;
             }
@@ -141,20 +143,22 @@ namespace myproject
             {
                 eraseFigure(formGraphics, figureNow);
                 eraseFigure(formGraphics, projectionFigureNow);
+
                 figureNow.moveRight();
+
+                drawFigure(formGraphics, figureNow);
+                projectionFigureNow = getProjection();
+                drawFigure(formGraphics, projectionFigureNow);
             }
             foreach (Point p in figureNow.cells)
             {
                 field.cells[p.Y][p.X].blocked = true;
                 field.cells[p.Y][p.X].figure = figureNow;
             }
-            drawFigure(formGraphics, figureNow);
-            projectionFigureNow = getProjection();
-            drawFigure(formGraphics, projectionFigureNow);
         }
         public bool moveDown(Graphics formGraphics)
         {
-            if (!haveFigurenow)
+            if (!haveFigurenow || !gameOn)
             {
                 return false;
             }
@@ -175,18 +179,18 @@ namespace myproject
             {
                 eraseFigure(formGraphics, figureNow);
                 figureNow.moveDown();
+                drawFigure(formGraphics, figureNow);
             }
             foreach (Point p in figureNow.cells)
             {
                 field.cells[p.Y][p.X].blocked = true;
                 field.cells[p.Y][p.X].figure = figureNow;
             }
-            drawFigure(formGraphics, figureNow);
             return havePlace;
         }
         public void moveUp(Graphics formGraphics)
         {
-            if (!haveFigurenow)
+            if (!haveFigurenow || !gameOn)
             {
                 return;
             }
@@ -328,8 +332,9 @@ namespace myproject
                 queueOfFigure.RemoveAt(0);
                 formGraphics2.Clear(Color.White);
                 int currentY = 1;
-                foreach (Figure figureInQueue in queueOfFigure)
+                for (int i = queueOfFigure.Count - 1; i > -1; --i)
                 {
+                    Figure figureInQueue = queueOfFigure[i];
                     foreach (Point p in figureInQueue.cells)
                     {
                         formGraphics2.FillRectangle(figureInQueue.color, (p.X - field.sizeX / 2 + 3) * sizeCellX, (currentY + p.Y) * sizeCellY, sizeCellX, sizeCellY);
@@ -338,7 +343,7 @@ namespace myproject
                     if (figureInQueue.GetType() == typeof(FigureI))
                     {
                         currentY += 2;
-                    } 
+                    }
                     else
                     {
                         currentY += 3;
