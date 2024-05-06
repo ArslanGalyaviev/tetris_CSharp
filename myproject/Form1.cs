@@ -109,6 +109,8 @@ namespace myproject
                                 }
                             }
                         }
+                        game.projectionFigureNow = game.getProjection();
+                        game.drawFigure(formGraphics, game.projectionFigureNow);
                     }
                     break;
                 case Keys.Escape:
