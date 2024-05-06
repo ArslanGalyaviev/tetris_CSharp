@@ -19,9 +19,10 @@ namespace myproject
         public Figure figureNow, projectionFigureNow;
         public List<Figure> queueOfFigure;
         public int sizeCellX = 30, sizeCellY = 30;
-        public SolidBrush myBrush = new SolidBrush(Color.White);
-        public Pen myPen = new Pen(Color.Black);
-        public int minEqualityBorder = 20;
+        public SolidBrush myBrush;
+        public Color backColor = Color.FromArgb(64, 64, 64);
+        public Pen myPen = new Pen(Color.White);
+        public int minEqualityBorder = 50;
         public int countNextFigures = 3;
         public int cntDeleteRows = 0;
         public int score = 0;
@@ -31,6 +32,7 @@ namespace myproject
             field = new Field();
             queueOfFigure = new List<Figure>();
             random = new Random();
+            myBrush = new SolidBrush(backColor);
             for (int i = 0; i < countNextFigures; i++)
             {
                 createRandomFigure(formGraphics2);
@@ -330,11 +332,10 @@ namespace myproject
             {
                 figureNow = queueOfFigure[0];
                 queueOfFigure.RemoveAt(0);
-                formGraphics2.Clear(Color.White);
+                formGraphics2.Clear(backColor);
                 int currentY = 1;
-                for (int i = queueOfFigure.Count - 1; i > -1; --i)
+                foreach (Figure figureInQueue in queueOfFigure)
                 {
-                    Figure figureInQueue = queueOfFigure[i];
                     foreach (Point p in figureInQueue.cells)
                     {
                         formGraphics2.FillRectangle(figureInQueue.color, (p.X - field.sizeX / 2 + 3) * sizeCellX, (currentY + p.Y) * sizeCellY, sizeCellX, sizeCellY);
@@ -359,6 +360,10 @@ namespace myproject
         public bool checkNewFigure(Figure nextFigure)
         {
             if (isColorsTheSame(Color.FromArgb(255, 255, 255), Color.FromArgb(nextFigure.r, nextFigure.g, nextFigure.b)))
+            {
+                return false;
+            }
+            if (isColorsTheSame(Color.FromArgb(128, 128, 128), Color.FromArgb(nextFigure.r, nextFigure.g, nextFigure.b)))
             {
                 return false;
             }

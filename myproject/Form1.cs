@@ -20,6 +20,7 @@ namespace myproject
         public Game game;
         public double currentTick = 800;
         Font font1 = new Font("Times New Roman", 28, FontStyle.Bold, GraphicsUnit.Pixel);
+        public int bestScore = 0;
 
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -27,8 +28,7 @@ namespace myproject
             {
                 timer.Stop();
                 currentTick = 800;
-                Bitmap resizedImg = new Bitmap(Properties.Resources.tyan, pictureBox1.Width, pictureBox1.Height);
-                pictureBox1.Image = resizedImg;
+                bestScore = Math.Max(bestScore, game.score);
             } 
             else
             {
@@ -37,7 +37,7 @@ namespace myproject
                     currentTick *= 0.99;
                 }
                 timer.Interval = (int)(currentTick);
-                labelPlayerScore.Text = game.score.ToString();
+                labelPlayerScore.Text = "Best Score\n" + game.score.ToString();
             }
         }
 
@@ -68,7 +68,7 @@ namespace myproject
             formGraphics2 = pictureBox2.CreateGraphics();
             game = new Game(formGraphics2);
             game.sizeCellX = Math.Min((int)(tableLayoutPanel1.Width * 0.7) / game.field.sizeX,
-                    (int)(tableLayoutPanel1.Height * 0.8) / game.field.sizeY);
+                    (int)(tableLayoutPanel1.Height * 0.8) / game.field.sizeY) - 1;
             game.sizeCellY = game.sizeCellX;
         }
 
@@ -79,18 +79,19 @@ namespace myproject
 
         private void pictureBox2_Paint(object sender, PaintEventArgs e)
         {
-            e.Graphics.Clear(Color.White);
+            e.Graphics.Clear(game.backColor);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            formGraphics.Clear(Color.White);
+            formGraphics.Clear(game.backColor);
             game = new Game(formGraphics2);
             game.sizeCellX = Math.Min((int)(tableLayoutPanel1.Width * 0.7) / game.field.sizeX,
-                    (int)(tableLayoutPanel1.Height * 0.8) / game.field.sizeY);
+                    (int)(tableLayoutPanel1.Height * 0.8) / game.field.sizeY) - 1;
             game.sizeCellY = game.sizeCellX;
             game.gameOn = true;
             timer.Start();
+            currentTick = 800;
             for (int i = 0; i < game.field.sizeX; ++i)
             {
                 for (int j = 0; j < game.field.sizeY; ++j)
@@ -107,11 +108,11 @@ namespace myproject
             if (game != null)
             {
                 game.sizeCellX = Math.Min((int)(tableLayoutPanel1.Width * 0.7) / game.field.sizeX,
-                    (int)(tableLayoutPanel1.Height * 0.8) / game.field.sizeY);
+                    (int)(tableLayoutPanel1.Height * 0.8) / game.field.sizeY) - 1;
                 game.sizeCellY = game.sizeCellX;
                 pictureBox1.Width = game.sizeCellX * game.field.sizeX + 5;
                 pictureBox1.Height = game.sizeCellY * game.field.sizeY + 5;
-                formGraphics.Clear(Color.White);
+                formGraphics.Clear(game.backColor);
                 for (int i = 0; i < game.field.sizeX; ++i)
                 {
                     for (int j = 0; j < game.field.sizeY; ++j)
@@ -128,11 +129,10 @@ namespace myproject
                         }
                     }
                 }
-                formGraphics2.Clear(Color.White);
+                formGraphics2.Clear(game.backColor);
                 int currentY = 1;
-                for (int i = game.queueOfFigure.Count - 1; i > -1; --i) 
+                foreach (Figure figureInQueue in game.queueOfFigure)
                 {
-                    Figure figureInQueue = game.queueOfFigure[i];
                     foreach (Point p in figureInQueue.cells)
                     {
                         formGraphics2.FillRectangle(figureInQueue.color, (p.X - game.field.sizeX / 2 + 3) * game.sizeCellX, (currentY + p.Y) * game.sizeCellY, game.sizeCellX, game.sizeCellY);
@@ -151,7 +151,7 @@ namespace myproject
                 {
                     game.drawFigure(formGraphics, game.getProjection());
                 }
-            }
+            }  
         }
     }
 }
