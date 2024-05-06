@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Security.Cryptography;
 using System.IO.Ports;
 using System.Runtime.InteropServices;
+using System.IO;
 
 namespace myproject
 {
@@ -20,7 +21,9 @@ namespace myproject
         public Game game;
         public double currentTick = 800;
         Font font1 = new Font("Times New Roman", 28, FontStyle.Bold, GraphicsUnit.Pixel);
-        public int bestScore = 0;
+        public string filePath = "Record.txt";
+        public StreamWriter writer;
+        public StreamReader reader;
 
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -28,7 +31,9 @@ namespace myproject
             {
                 timer.Stop();
                 currentTick = 800;
-                bestScore = Math.Max(bestScore, game.score);
+                Bitmap resizedImg = new Bitmap(Properties.Resources.tyan, pictureBox1.Width, pictureBox1.Height);
+                pictureBox1.Image = resizedImg;
+                UpdateRecord();
             } 
             else
             {
@@ -36,9 +41,29 @@ namespace myproject
                 {
                     currentTick *= 0.99;
                 }
+                UpdateRecord();
                 timer.Interval = (int)(currentTick);
-                labelPlayerScore.Text = "Best Score\n" + game.score.ToString();
+                labelPlayerScore.Text = "Points\n" + game.score.ToString();
+                labelPlayerRecord.Text = "Record\n" + GetRecord().ToString();
             }
+        }
+
+        private void UpdateRecord()
+        {
+            int rec = GetRecord();
+            writer = new StreamWriter(filePath);
+            writer.Write(Math.Max(rec, game.score));
+            writer.Close();
+        }
+
+        private int GetRecord()
+        {
+            reader = new StreamReader(filePath);
+            string line = reader.ReadLine();
+            int rec;
+            int.TryParse(line, out rec);
+            reader.Close();
+            return rec;
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -57,6 +82,38 @@ namespace myproject
                 case Keys.W:
                     game.moveUp(formGraphics);
                     break;
+                case Keys.P:
+                    if (timer.Enabled)
+                    {
+                        timer.Stop();
+                        Bitmap resizedImg = new Bitmap(Properties.Resources.tyan2, pictureBox1.Width, pictureBox1.Height);
+                        pictureBox1.Image = resizedImg;
+                    }
+                    else
+                    {
+                        formGraphics.Clear(game.backColor);
+                        timer.Start();
+                        for (int i = 0; i < game.field.sizeX; ++i)
+                        {
+                            for (int j = 0; j < game.field.sizeY; ++j)
+                            {
+                                if (game.field.cells[j][i].blocked)
+                                {
+                                    formGraphics.FillRectangle(game.field.cells[j][i].figure.color, i * game.sizeCellX, j * game.sizeCellY, game.sizeCellX, game.sizeCellY);
+                                    formGraphics.DrawRectangle(game.myPen, i * game.sizeCellX, j * game.sizeCellY, game.sizeCellX, game.sizeCellY);
+                                }
+                                else
+                                {
+                                    formGraphics.FillRectangle(game.myBrush, i * game.sizeCellX, j * game.sizeCellY, game.sizeCellX, game.sizeCellY);
+                                    formGraphics.DrawRectangle(game.myPen, i * game.sizeCellX, j * game.sizeCellY, game.sizeCellX, game.sizeCellY);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case Keys.Escape:
+                    this.Close();
+                    break;
             }
         }
 
@@ -70,6 +127,7 @@ namespace myproject
             game.sizeCellX = Math.Min((int)(tableLayoutPanel1.Width * 0.7) / game.field.sizeX,
                     (int)(tableLayoutPanel1.Height * 0.8) / game.field.sizeY) - 1;
             game.sizeCellY = game.sizeCellX;
+            labelPlayerRecord.Text = "Record\n" + GetRecord().ToString();
         }
 
         private void pictureBox1_Paint(object sender, PaintEventArgs e)
@@ -85,6 +143,7 @@ namespace myproject
         private void button1_Click(object sender, EventArgs e)
         {
             formGraphics.Clear(game.backColor);
+            UpdateRecord();
             game = new Game(formGraphics2);
             game.sizeCellX = Math.Min((int)(tableLayoutPanel1.Width * 0.7) / game.field.sizeX,
                     (int)(tableLayoutPanel1.Height * 0.8) / game.field.sizeY) - 1;
@@ -100,7 +159,6 @@ namespace myproject
                     formGraphics.DrawRectangle(game.myPen, i * game.sizeCellX, j * game.sizeCellY, game.sizeCellX, game.sizeCellY);
                 }
             }
-            this.Select();
         }
 
         private void tableLayoutPanel1_SizeChanged(object sender, EventArgs e)

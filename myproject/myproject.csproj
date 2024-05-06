@@ -93,6 +93,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="tyan.png" />
+    <None Include="tyan2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
